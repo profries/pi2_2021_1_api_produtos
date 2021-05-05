@@ -1,10 +1,22 @@
+const conexao = require('../config/conexaoBD')
 
 exports.listar = (req, res) => {
-    res.send('Listar Produtos')
+    const sql = "SELECT * FROM produto";
+
+    conexao.query(sql, (erro, rows) => {
+        if(erro){
+            res.status(500).json({"erro:":"Database Error"})
+            console.log(erro)
+        }
+        else {
+            res.json(rows)
+        }
+    })
 }
 
 exports.inserir = (req, res) => {
-    res.send('Inserir Produto')
+    const produto = JSON.stringify(req.body);
+    res.status(201).send(`Inserir Produto ${produto}`)
 }
 
 exports.buscarPorId = (req, res) => {
